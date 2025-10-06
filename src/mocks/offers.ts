@@ -18,6 +18,10 @@ export type Offer = {
     };
     description: string;
     city: string;
+    location: {
+        latitude: number;
+        longitude: number;
+    };
 };
 
 export const offers: Offer[] = [
@@ -59,6 +63,10 @@ export const offers: Offer[] = [
         },
         description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
         city: 'Amsterdam',
+        location: {
+            latitude: 52.3909553943508,
+            longitude: 4.85309666406198,
+        },
     },
     {
         id: '2',
@@ -89,6 +97,10 @@ export const offers: Offer[] = [
         },
         description: 'A cozy private room in the heart of the city. Perfect for solo travelers or couples.',
         city: 'Amsterdam',
+        location: {
+            latitude: 52.3609553943508,
+            longitude: 4.85309666406198,
+        },
     },
     {
         id: '3',
@@ -119,6 +131,10 @@ export const offers: Offer[] = [
         },
         description: 'Spacious apartment with a beautiful canal view. Enjoy the city from your window.',
         city: 'Amsterdam',
+        location: {
+            latitude: 52.3909553943508,
+            longitude: 4.929309666406198,
+        },
     },
     {
         id: '4',
@@ -154,5 +170,9 @@ export const offers: Offer[] = [
         },
         description: 'A nice and cozy apartment with a big bed. Perfect for families and groups.',
         city: 'Amsterdam',
+        location: {
+            latitude: 52.3809553943508,
+            longitude: 4.939309666406198,
+        },
     },
 ]
