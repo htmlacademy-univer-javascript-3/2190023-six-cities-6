@@ -33,7 +33,7 @@ export const offers: Offer[] = [
         rating: 4,
         isPremium: true,
         isFavorite: false,
-        previewImage: 'img/apartment-01.jpg',
+        previewImage: '/img/apartment-01.jpg',
         images: [
             'img/room.jpg',
             'img/apartment-01.jpg',
@@ -76,7 +76,7 @@ export const offers: Offer[] = [
         rating: 3,
         isPremium: false,
         isFavorite: true,
-        previewImage: 'img/room.jpg',
+        previewImage: '/img/room.jpg',
         images: [
             'img/room.jpg',
             'img/apartment-01.jpg',
@@ -110,7 +110,7 @@ export const offers: Offer[] = [
         rating: 4,
         isPremium: false,
         isFavorite: false,
-        previewImage: 'img/apartment-02.jpg',
+        previewImage: '/img/apartment-02.jpg',
         images: [
             'img/apartment-02.jpg',
             'img/apartment-03.jpg',
@@ -144,7 +144,7 @@ export const offers: Offer[] = [
         rating: 5,
         isPremium: true,
         isFavorite: true,
-        previewImage: 'img/apartment-03.jpg',
+        previewImage: '/img/apartment-03.jpg',
         images: [
             'img/apartment-03.jpg',
             'img/apartment-01.jpg',
