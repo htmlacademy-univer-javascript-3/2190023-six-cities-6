@@ -9,13 +9,15 @@ import { FavoritesPage } from './pages/FavoritesPage';
 import { PropertyPage } from './pages/PropertyPage';
 import { NotFound } from './components/NotFound';
 import { PrivateRoute } from './components/PrivateRoute';
+import { checkAuth } from './store/auth-thunk';
 
 const App: React.FC = () => {
-    localStorage.setItem('six-cities-token', 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=');
+    // localStorage.setItem('six-cities-token', 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=');
 
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
+        dispatch(checkAuth());
         dispatch(fetchOffers());
     }, [dispatch]);
 
@@ -27,7 +29,7 @@ const App: React.FC = () => {
                 <Route
                     path="/favorites"
                     element={
-                        <PrivateRoute isAuthorized={true}>
+                        <PrivateRoute>
                             <FavoritesPage />
                         </PrivateRoute>
                     }

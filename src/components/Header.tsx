@@ -2,10 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import type { RootState } from '../store';
+import { AuthorizationStatus } from '../store/auth-slice';
 
 export const Header: React.FC = () => {
     const offers = useSelector((state: RootState) => state.offers.items);
     const favoriteCount = offers.filter((offer) => offer.isFavorite).length;
+    const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
     return (
         <header className="header">
             <div className="container">
@@ -18,20 +20,30 @@ export const Header: React.FC = () => {
                     <nav className="header__nav">
                         <ul className="header__nav-list">
                             <li className="header__nav-item user">
-                                <div className="header__nav-link header__nav-link--profile">
-                                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                                {authorizationStatus === AuthorizationStatus.Authorized ? (
+
+                                    <div className="header__nav-link header__nav-link--profile">
+                                        <div className="header__avatar-wrapper user__avatar-wrapper">
+                                        </div>
+                                        <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                                        <Link to="/favorites" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <span className="header__favorite-count">{favoriteCount}</span>
+                                        </Link>
                                     </div>
-                                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                                    <Link to="/favorites" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        <span className="header__favorite-count">{favoriteCount}</span>
+                                ) : (
+                                    <Link to="/login" className="header__nav-link header__nav-link--profile">
+                                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                                        <span className="header__login">Sign in</span>
                                     </Link>
-                                </div>
+                                )}
                             </li>
-                            <li className="header__nav-item">
-                                <a className="header__nav-link" href="#">
-                                    <span className="header__signout">Sign out</span>
-                                </a>
-                            </li>
+                            {authorizationStatus === AuthorizationStatus.Authorized && (
+                                <li className="header__nav-item">
+                                    <a className="header__nav-link" href="#">
+                                        <span className="header__signout">Sign out</span>
+                                    </a>
+                                </li>
+                            )}
                         </ul>
                     </nav>
                 </div>
