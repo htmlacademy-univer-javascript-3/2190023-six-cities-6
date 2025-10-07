@@ -1,10 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import { offers } from '../mocks/offers';
 import { CommentForm } from '../components/CommentForm';
 import { ReviewList } from '../components/ReviewList';
 import { Map } from '../components/Map';
 import { NearbyOffersList } from '../components/NearbyOffersList';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../store';
+import { Header } from '../components/Header';
 
 // моки
 // обзоры
@@ -25,16 +27,19 @@ const reviews = [
             name: 'Anna',
             avatarUrl: 'img/avatar-anna.jpg',
         },
-        rating: 1, 
+        rating: 1,
         comment: 'Boring stay! Very bad service and dirty rooms.',
         date: '2020-05-12',
     }
 ]
 
-// объявления неподалёку
-const nearbyOffers = offers.slice(1, 4);
 
 export const PropertyPage: React.FC = () => {
+    const offers = useSelector((state: RootState) => state.offers.items);
+
+    // объявления неподалёку
+    const nearbyOffers = offers.slice(1, 4);
+
     const { id } = useParams<{ id: string }>();
     const offer = offers.find((o) => o.id === id);
 
@@ -49,34 +54,7 @@ export const PropertyPage: React.FC = () => {
             </div>
 
             <div className="page">
-                <header className="header">
-                    <div className="container">
-                        <div className="header__wrapper">
-                            <div className="header__left">
-                                <a className="header__logo-link" href="main.html">
-                                    <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-                                </a>
-                            </div>
-                            <nav className="header__nav">
-                                <ul className="header__nav-list">
-                                    <li className="header__nav-item user">
-                                        <a className="header__nav-link header__nav-link--profile" href="#">
-                                            <div className="header__avatar-wrapper user__avatar-wrapper">
-                                            </div>
-                                            <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                                            <span className="header__favorite-count">3</span>
-                                        </a>
-                                    </li>
-                                    <li className="header__nav-item">
-                                        <a className="header__nav-link" href="#">
-                                            <span className="header__signout">Sign out</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </header>
+                <Header />
 
                 <main className="page__main page__main--property">
                     <section className="property">
@@ -204,7 +182,7 @@ export const PropertyPage: React.FC = () => {
                             </div>
                         </div>
                         {/* <section className="property__map map"></section> */}
-                        <div style={{ height: '300px', width: '70%', margin: '20px auto'}}>
+                        <div style={{ height: '300px', width: '70%', margin: '20px auto' }}>
                             <Map offers={nearbyOffers} className="property__map map" />
                         </div>
                     </section>
