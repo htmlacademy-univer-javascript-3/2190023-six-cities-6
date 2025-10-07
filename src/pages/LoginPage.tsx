@@ -21,8 +21,8 @@ export const LoginPage: React.FC = () => {
         try {
             await dispatch(login({ email, password })).unwrap();
             navigate('/');
-        } catch (error: any) {
-            setError(error);
+        } catch (err: any) {
+            setError(err);
         }
     };
 
