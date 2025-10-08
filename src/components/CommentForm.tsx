@@ -1,37 +1,43 @@
 import React, { useState } from 'react';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { FormEvent } from 'react';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../store';
+import { postComment } from '../store/offer-thunks';
 
-export const CommentForm: React.FC = () => {
-    const [rating, setRating] = useState<number | null>(null);
+type CommentFormProps = {
+    offerId: string;
+};
+
+export const CommentForm: React.FC<CommentFormProps> = ({ offerId }) => {
+    const dispatch = useDispatch<AppDispatch>();
     const [comment, setComment] = useState('');
-
-    const handleRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setRating(Number(e.target.value));
-    };
-
-    const handleCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setComment(e.target.value);
-    }
-
-    const handleSubmit = (e: FormEvent) => {
+    const [rating, setRating] = useState(0);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        // implement here the server sending logic
+        setIsSubmitting(true);
+        await dispatch(postComment({ offerId, comment, rating }));
+        setComment('');
+        setRating(0);
+        setIsSubmitting(false);
     }
 
     return (
-        <form className="reviews__form form" onSubmit={handleSubmit} action="#" method="post">
+        <form className="reviews__form form" onSubmit={handleSubmit}>
             <label className="reviews__label form__label" htmlFor="review">Your review</label>
             <div className="reviews__rating-form form__rating">
                 {[5, 4, 3, 2, 1].map((star) => (
                     <React.Fragment key={star}>
                         <input
                             className="form__rating-input visually-hidden"
+                            type="radio"
                             name="rating"
                             value={star}
                             id={`${star}-stars`}
-                            type="radio"
                             checked={rating === star}
-                            onChange={handleRatingChange}
+                            onChange={() => setRating(star)}
+                            disabled={isSubmitting}
                         />
                         <label htmlFor={`${star}-stars`} className="reviews__rating-label form__rating-label" title={
                             star === 5 ? 'perfect' :
@@ -52,7 +58,9 @@ export const CommentForm: React.FC = () => {
                 name="review"
                 placeholder="Tell how was your stay, what you like and what can be improved"
                 value={comment}
-                onChange={handleCommentChange}
+                onChange={(e) => setComment(e.target.value)}
+                maxLength={300}
+                required
             />
             <div className="reviews__button-wrapper">
                 <p className="reviews__help">
@@ -62,7 +70,7 @@ export const CommentForm: React.FC = () => {
                 <button
                     className="reviews__submit form__submit button"
                     type="submit"
-                    disabled={rating === null || comment.length < 50}
+                    disabled={isSubmitting || rating === 0 || comment.length < 50}
                 >
                     Submit
                 </button>

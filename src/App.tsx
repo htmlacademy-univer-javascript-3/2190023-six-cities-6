@@ -6,7 +6,7 @@ import type { AppDispatch } from './store';
 import { MainPage } from './pages/MainPage';
 import { LoginPage } from './pages/LoginPage';
 import { FavoritesPage } from './pages/FavoritesPage';
-import { PropertyPage } from './pages/PropertyPage';
+import { OfferPage } from './pages/OfferPage';
 import { NotFound } from './components/NotFound';
 import { PrivateRoute } from './components/PrivateRoute';
 import { checkAuth } from './store/auth-thunk';
@@ -34,7 +34,7 @@ const App: React.FC = () => {
                         </PrivateRoute>
                     }
                 />
-                <Route path="/offer/:id" element={<PropertyPage />} />
+                <Route path="/offer/:id" element={<OfferPage />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>

@@ -10,3 +10,9 @@
 @keyframes spin {
     to { transform: rotate(360deg);}
 }
+
+/* прячем украинский флаг */
+.leaflet-control-attribution a:first-of-type,
+.leaflet-control-attribution span:first-of-type {
+    display: none;
+}
