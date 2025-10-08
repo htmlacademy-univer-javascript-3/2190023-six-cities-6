@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-
-export type AuthorizationStatus = 'authorized' | 'unauthorized' | 'unknown';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export const AuthorizationStatus = {
-    Authorized: 'authorized' as AuthorizationStatus,
-    Unauthorized: 'unauthorized' as AuthorizationStatus,
-    Unknown: 'unknown' as AuthorizationStatus,
-};
+    Authorized: 'authorized',
+    Unauthorized: 'unauthorized',
+    Unknown: 'unknown',
+} as const;
+
+export type AuthorizationStatus = typeof AuthorizationStatus[keyof typeof AuthorizationStatus];
 
 type AuthState = {
     authorizationStatus: AuthorizationStatus;
@@ -20,7 +20,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setAuthorizationStatus(state, action) {
+        setAuthorizationStatus(state, action: PayloadAction<AuthorizationStatus>) {
             state.authorizationStatus = action.payload;
         },
     },

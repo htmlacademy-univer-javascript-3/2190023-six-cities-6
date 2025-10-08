@@ -10,7 +10,7 @@ type MapProps = {
 };
 
 const defaultIcon = L.icon({
-  iconUrl: 'img/pin.svg',
+  iconUrl: '/img/pin.svg',
   iconSize: [27, 39],
   iconAnchor: [13, 39]
 });

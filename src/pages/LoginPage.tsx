@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../store/auth-thunk';
 import type { AppDispatch, RootState } from '../store';
-import { Header } from '../components/Header';
-import { useNavigate } from 'react-router';
+import { useNavigate, Navigate } from 'react-router';
 import { AuthorizationStatus } from '../store/auth-slice';
 
 export const LoginPage: React.FC = () => {
@@ -21,19 +20,20 @@ export const LoginPage: React.FC = () => {
         try {
             await dispatch(login({ email, password })).unwrap();
             navigate('/');
-        } catch (err: any) {
-            setError(err);
+        } catch (err: unknown) {
+            setError(typeof err === 'string' ? err : 'Unknown error');
         }
     };
 
     if (authorizationStatus === AuthorizationStatus.Authorized) {
-        navigate('/');
-        return null;
+        // navigate('/');
+        // return null;
+        return <Navigate to="/" replace />;
     }
 
     return (
         <>
-            <Header />
+            
             <div className="page page--gray page--login">
                 <main className="page__main page__main--login">
                     <div className="container">

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { AxiosInstance } from 'axios';
+import type { AxiosInstance, AxiosError } from 'axios';
 import type { Offer } from '../types/offer';
 import type { Review } from '../types/review';
 
@@ -77,8 +77,9 @@ export const postComment = createAsyncThunk<void, PostCommentArgs, { extra: Axio
         try { 
             await api.post(`/comments/${offerId}`, { comment, rating });
             dispatch(fetchReviews(offerId));
-        } catch (error: any) {
-            return rejectWithValue(`Failed to post comment: ${error}`);
+        } catch (error: unknown) {
+            const axiosError = error as AxiosError;
+            return rejectWithValue(`Failed to post comment: ${axiosError}`);
         }
     }
 );

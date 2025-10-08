@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PlaceCard } from './PlaceCard';
 import type { Offer } from '../types/offer';
 
@@ -9,12 +9,9 @@ type OffersListProps = {
 
 export const OffersList: React.FC<OffersListProps> = ({ offers, onCardHover }) => {
 
-    const [hoverCardId, setHoverCardId] = useState<string | null>(null);
-
-    const handleCardHover = (id: string | null) => {
-        setHoverCardId(id);
+    const handleCardHover = React.useCallback((id: string | null) => {
         onCardHover?.(id);
-    };
+    }, [onCardHover]);
 
     return (
         <div className="cities__places-list places__list tabs__content">

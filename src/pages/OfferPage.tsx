@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Navigate } from 'react-router';
 import { fetchOffer, fetchNearbyOffers, fetchReviews } from '../store/offer-thunks';
 import type { RootState, AppDispatch } from '../store';
 import { AuthorizationStatus } from '../store/auth-slice';
-import { Header } from '../components/Header';
 import { ReviewList } from '../components/ReviewList';
 import { Spinner } from '../components/Spinner';
 import { CommentForm } from '../components/CommentForm';
-import { Map } from '../components/Map';
-import { NearbyOffersList } from '../components/NearbyOffersList';
+import { NearbyOffersSection } from '../components/NearbyOffersSection';
+// import { NearbyOffersList } from '../components/NearbyOffersList';
 
 export const OfferPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,16 +23,22 @@ export const OfferPage: React.FC = () => {
   }, [id, dispatch]);
 
   const offer = useSelector((state: RootState) => state.offers.currentOffer);
-  const nearbyOffers = useSelector((state: RootState) => state.offers.nearbyOffers);
   const reviews = useSelector((state: RootState) => state.offers.reviews);
   const isOfferLoading = useSelector((state: RootState) => state.offers.isOfferLoading);
   const error = useSelector((state: RootState) => state.offers.error);
 
-  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const isAuthorized = useSelector((state: RootState) => state.auth.authorizationStatus === AuthorizationStatus.Authorized)
 
-  if (isOfferLoading) {
-    return <Spinner />;
+  // const [fakeLoading, setFakeLoading] = React.useState(true);
+  // React.useEffect(() => {
+  //   const timer = setTimeout(() => setFakeLoading(false), 5000000);
+  //   return () => clearTimeout(timer);
+  // }, []);
+
+  if (isOfferLoading /*|| fakeLoading*/ ) {
+    return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '600px' }}>
+      <Spinner />
+    </div>;
   }
 
   if (!isOfferLoading && error) {
@@ -45,8 +50,6 @@ export const OfferPage: React.FC = () => {
 
   return (
     <div className="page">
-      <Header />
-
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
@@ -147,14 +150,7 @@ export const OfferPage: React.FC = () => {
         </div> */}
         {/* кастомная разметка для более красивого отображения nearby offers и карты */}
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
-        <div className="container" style={{ display: 'flex', height: "860px" }}>
-          <section className="near-places places" style={{ width: '680px', overflowY: 'auto', boxSizing: 'border-box', paddingTop: '10px' }}>
-            <NearbyOffersList offers={nearbyOffers} onHover={setActiveOfferId} />
-          </section>
-          <section className="offer__map map" style={{ margin: "0 auto", width: "50%", height: '100%' }}>
-            <Map offers={nearbyOffers} activeOfferId={activeOfferId} />
-          </section>
-        </div>
+        <NearbyOffersSection />
       </main>
     </div>
   );

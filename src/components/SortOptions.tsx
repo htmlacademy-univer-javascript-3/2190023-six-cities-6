@@ -14,7 +14,7 @@ const SORT_OPTIONS: SortType[] = [
     'Top rated first',
 ];
 
-export const SortOptions: React.FC<SortOptionsProps> = ({ activeSort, onSortChange }) => {
+export const SortOptions: React.FC<SortOptionsProps> = React.memo(({ activeSort, onSortChange }) => {
     const [opened, setOpened] = useState(false);
 
     return (
@@ -31,11 +31,11 @@ export const SortOptions: React.FC<SortOptionsProps> = ({ activeSort, onSortChan
                     <use xlinkHref="#icon-arrow-select" />
                 </svg>
             </span>
-            <ul className={`places__options places__options--custom ${opened ? ' places__options--opened' : ''}`}>
+            <ul className={`places__options places__options--custom${opened ? ' places__options--opened' : ''}`}>
                 {SORT_OPTIONS.map((option) => (
                     <li
                         key={option}
-                        className={`places__option ${option === activeSort ? 'places__option--active' : ''}`}
+                        className={`places__option${option === activeSort ? ' places__option--active' : ''}`}
                         tabIndex={0}
                         onClick={() => {
                             onSortChange(option);
@@ -49,4 +49,4 @@ export const SortOptions: React.FC<SortOptionsProps> = ({ activeSort, onSortChan
             </ul>
         </form>
     );
-}
+});
