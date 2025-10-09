@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchOffers, fetchOffer, fetchNearbyOffers, fetchReviews } from './offer-thunks';
+import { fetchOffers, fetchOffer, fetchNearbyOffers, fetchReviews, changeFaforiteStatus, fetchFavorites } from './offer-thunks';
 import type { Offer } from '../types/offer';
 import type { Review } from '../types/review';
+import { clearFavorites } from './action';
 
 type OffersState = {
     items: Offer[];
@@ -67,6 +68,39 @@ export const offersSlice = createSlice({
             .addCase(fetchReviews.fulfilled, (state, action) => {
                 state.reviews = action.payload;
                 // console.log('fetchedReviews fulfilled: ', state.reviews);
+            })
+            // favorites
+            .addCase(fetchFavorites.fulfilled, (state, action) => {
+                const favoriteIds = new Set(action.payload.map((offer) => offer.id));
+                state.items = state.items.map((offer) => ({
+                    ...offer,
+                    isFavorite: favoriteIds.has(offer.id)
+                }));
+            })
+            .addCase(changeFaforiteStatus.fulfilled, (state, action) => {
+                const updatedOffer = action.payload;
+                state.items = state.items.map((offer) =>
+                    offer.id === updatedOffer.id ? updatedOffer : offer
+                );
+                if (state.currentOffer?.id === updatedOffer.id) {
+                    state.currentOffer = updatedOffer;
+                }
+                state.nearbyOffers = state.nearbyOffers.map((offer) =>
+                    offer.id === updatedOffer.id ? updatedOffer : offer
+                );
+            })
+            .addCase(clearFavorites, (state) => {
+                state.items = state.items.map((offer) => ({
+                    ...offer,
+                    isFavorite: false
+                }));
+                if (state.currentOffer) {
+                    state.currentOffer = { ...state.currentOffer, isFavorite: false };
+                }
+                state.nearbyOffers = state.nearbyOffers.map((offer) => ({
+                    ...offer,
+                    isFavorite: false
+                }));
             });
     },
 });

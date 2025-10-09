@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Navigate } from 'react-router';
-import { fetchOffer, fetchNearbyOffers, fetchReviews } from '../store/offer-thunks';
+import { useParams, Navigate, useNavigate } from 'react-router';
+import { fetchOffer, fetchNearbyOffers, fetchReviews, changeFaforiteStatus } from '../store/offer-thunks';
 import type { RootState, AppDispatch } from '../store';
 import { AuthorizationStatus } from '../store/auth-slice';
 import { ReviewList } from '../components/ReviewList';
@@ -13,6 +13,7 @@ import { NearbyOffersSection } from '../components/NearbyOffersSection';
 export const OfferPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
@@ -34,6 +35,21 @@ export const OfferPage: React.FC = () => {
   //   const timer = setTimeout(() => setFakeLoading(false), 5000000);
   //   return () => clearTimeout(timer);
   // }, []);
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!isAuthorized) {
+      navigate('/login');
+      return;
+    }
+    if (!offer?.id) {
+      return;
+    }
+    dispatch(changeFaforiteStatus({
+      offerId: offer.id,
+      status: offer.isFavorite ? 0 : 1
+    }));
+  }
 
   if (isOfferLoading /*|| fakeLoading*/ ) {
     return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '600px' }}>
@@ -73,7 +89,10 @@ export const OfferPage: React.FC = () => {
                 <h1 className="offer__name">
                   {offer?.title}
                 </h1>
-                <button className={`offer__bookmark-button button${offer?.isFavorite ? ' offer__bookmark-button--active' : ''}`} type="button">
+                <button className={`offer__bookmark-button button${offer?.isFavorite ? ' offer__bookmark-button--active' : ''}`} 
+                  type="button"
+                  onClick={handleFavoriteClick}
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -154,4 +173,4 @@ export const OfferPage: React.FC = () => {
       </main>
     </div>
   );
-}
+};

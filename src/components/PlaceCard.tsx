@@ -1,6 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, Navigate, useNavigate } from 'react-router';
 import type { Offer } from '../types/offer';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../store';
+import { AuthorizationStatus } from '../store/auth-slice';
+import { changeFaforiteStatus } from '../store/offer-thunks';
 
 type PlaceCardProps = {
     offer: Offer;
@@ -15,6 +19,22 @@ export const PlaceCard: React.FC<PlaceCardProps> = React.memo(({
     imageWrapperClassName = 'cities__image-wrapper',
     onHover
  }) => {
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const isAuthorized = useSelector((state: RootState) => state.auth.authorizationStatus) === AuthorizationStatus.Authorized;
+
+    const handleFavoriteClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (!isAuthorized) {
+            navigate('/login');
+            return;
+        }
+        dispatch(changeFaforiteStatus({
+            offerId: offer.id,
+            status: offer.isFavorite ? 0 : 1
+        }));
+    }
+
     return (
         <article 
             className={`${cardClassName} place-card`}
@@ -46,6 +66,7 @@ export const PlaceCard: React.FC<PlaceCardProps> = React.memo(({
                     <button 
                         className={`place-card__bookmark-button button${offer.isFavorite ? ' place-card__bookmark-button--active' : ''}`} 
                         type="button"
+                        onClick={handleFavoriteClick}
                     >
                         <svg className="place-card__bookmark-icon" width="18" height="19">
                             <use xlinkHref="#icon-bookmark"></use>
