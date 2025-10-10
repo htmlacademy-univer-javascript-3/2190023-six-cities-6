@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchOffers, fetchOffer, fetchNearbyOffers, fetchReviews, changeFaforiteStatus, fetchFavorites } from './offer-thunks';
+import { fetchOffers, fetchOffer, fetchNearbyOffers, fetchReviews, changeFavoriteStatus, fetchFavorites } from './offer-thunks';
 import type { Offer } from '../types/offer';
 import type { Review } from '../types/review';
 import { clearFavorites } from './action';
 
-type OffersState = {
+export type OffersState = {
     items: Offer[];
     currentOffer: Offer | null;
     nearbyOffers: Offer[];
@@ -77,7 +77,7 @@ export const offersSlice = createSlice({
                     isFavorite: favoriteIds.has(offer.id)
                 }));
             })
-            .addCase(changeFaforiteStatus.fulfilled, (state, action) => {
+            .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
                 const updatedOffer = action.payload;
                 state.items = state.items.map((offer) =>
                     offer.id === updatedOffer.id ? updatedOffer : offer

@@ -79,7 +79,7 @@ export const fetchFavorites = createAsyncThunk<Offer[], void, { extra: AxiosInst
     }
 )
 
-export const changeFaforiteStatus = createAsyncThunk<Offer, { offerId: string; status: 0 | 1 }, { extra: AxiosInstance }>(
+export const changeFavoriteStatus = createAsyncThunk<Offer, { offerId: string; status: 0 | 1 }, { extra: AxiosInstance }>(
     'offers/changeFavoriteStatus',
     async ({ offerId, status }, { extra: api, rejectWithValue }) => {
         try {

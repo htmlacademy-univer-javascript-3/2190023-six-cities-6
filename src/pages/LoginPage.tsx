@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/auth-thunk';
 import type { AppDispatch, RootState } from '../store';
 import { useNavigate, Navigate } from 'react-router';
 import { AuthorizationStatus } from '../store/auth-slice';
+import { handleLoginSubmit } from '../functions/async-acts';
 
 export const LoginPage: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -15,25 +15,16 @@ export const LoginPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError(null);
-        try {
-            await dispatch(login({ email, password })).unwrap();
-            navigate('/');
-        } catch (err: unknown) {
-            setError(typeof err === 'string' ? err : 'Unknown error');
-        }
+        await handleLoginSubmit(e, email, password, dispatch, navigate, setError);
     };
 
     if (authorizationStatus === AuthorizationStatus.Authorized) {
-        // navigate('/');
-        // return null;
         return <Navigate to="/" replace />;
     }
 
     return (
         <>
-            
+
             <div className="page page--gray page--login">
                 <main className="page__main page__main--login">
                     <div className="container">

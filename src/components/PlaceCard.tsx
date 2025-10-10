@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link, Navigate, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import type { Offer } from '../types/offer';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store';
 import { AuthorizationStatus } from '../store/auth-slice';
-import { changeFaforiteStatus } from '../store/offer-thunks';
+import { changeFavoriteStatus } from '../store/offer-thunks';
 
 type PlaceCardProps = {
     offer: Offer;
@@ -29,7 +29,7 @@ export const PlaceCard: React.FC<PlaceCardProps> = React.memo(({
             navigate('/login');
             return;
         }
-        dispatch(changeFaforiteStatus({
+        dispatch(changeFavoriteStatus({
             offerId: offer.id,
             status: offer.isFavorite ? 0 : 1
         }));
