@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const LoginPage: React.FC = () => {
+export const PropertyPage: React.FC = () => {
     return (
         <>
             <div style={{ display: "none" }}>
