@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
-import { useDispatch } from 'react-redux';
 import { fetchOffers } from './store/offer-thunks';
-import type { AppDispatch } from './store';
 import { MainPage } from './pages/MainPage';
 import { LoginPage } from './pages/LoginPage';
 import { FavoritesPage } from './pages/FavoritesPage';
@@ -11,9 +9,10 @@ import { NotFound } from './components/NotFound';
 import { PrivateRoute } from './components/PrivateRoute';
 import { checkAuth } from './store/auth-thunk';
 import { Header } from './components/Header';
+import { useAppDispatch } from './store/redux';
 
 const App: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(checkAuth());
@@ -22,7 +21,7 @@ const App: React.FC = () => {
 
     return (
         <BrowserRouter>
-        <Header />
+            <Header />
             <Routes>
                 <Route path="/" element={<MainPage />} />
                 <Route path="/login" element={<LoginPage />} />

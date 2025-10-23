@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Navigate, useNavigate } from 'react-router';
 import { fetchOffer, fetchNearbyOffers, fetchReviews, changeFavoriteStatus } from '../store/offer-thunks';
-import type { RootState, AppDispatch } from '../store';
 import { AuthorizationStatus } from '../store/auth-slice';
 import { ReviewList } from '../components/ReviewList';
 import { Spinner } from '../components/Spinner';
 import { CommentForm } from '../components/CommentForm';
 import { NearbyOffersSection } from '../components/NearbyOffersSection';
+import { useAppDispatch, useAppSelector } from '../store/redux';
 // import { NearbyOffersList } from '../components/NearbyOffersList';
 
 export const OfferPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,12 +22,12 @@ export const OfferPage: React.FC = () => {
     }
   }, [id, dispatch]);
 
-  const offer = useSelector((state: RootState) => state.offers.currentOffer);
-  const reviews = useSelector((state: RootState) => state.offers.reviews);
-  const isOfferLoading = useSelector((state: RootState) => state.offers.isOfferLoading);
-  const error = useSelector((state: RootState) => state.offers.error);
+  const offer = useAppSelector((state) => state.offers.currentOffer);
+  const reviews = useAppSelector((state) => state.offers.reviews);
+  const isOfferLoading = useAppSelector((state) => state.offers.isOfferLoading);
+  const error = useAppSelector((state) => state.offers.error);
 
-  const isAuthorized = useSelector((state: RootState) => state.auth.authorizationStatus === AuthorizationStatus.Authorized)
+  const isAuthorized = useAppSelector((state) => state.auth.authorizationStatus === AuthorizationStatus.Authorized)
 
   // const [fakeLoading, setFakeLoading] = React.useState(true);
   // React.useEffect(() => {
@@ -51,7 +50,7 @@ export const OfferPage: React.FC = () => {
     }));
   }
 
-  if (isOfferLoading /*|| fakeLoading*/ ) {
+  if (isOfferLoading /*|| fakeLoading*/) {
     return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '600px' }}>
       <Spinner />
     </div>;
@@ -89,7 +88,7 @@ export const OfferPage: React.FC = () => {
                 <h1 className="offer__name">
                   {offer?.title}
                 </h1>
-                <button className={`offer__bookmark-button button${offer?.isFavorite ? ' offer__bookmark-button--active' : ''}`} 
+                <button className={`offer__bookmark-button button${offer?.isFavorite ? ' offer__bookmark-button--active' : ''}`}
                   type="button"
                   onClick={handleFavoriteClick}
                 >

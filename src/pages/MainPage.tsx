@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import type { AppDispatch } from '../store';
 import { resetCityChanged } from '../store/city-slice';
-import type { RootState } from '../store/index';
 import { Map } from '../components/Map';
 import { OffersList } from '../components/OffersList';
 import { CitiesList } from '../components/CitiesList';
@@ -11,18 +8,19 @@ import { SortOptions } from '../components/SortOptions';
 import type { SortType } from '../components/SortOptions';
 import { Spinner } from '../components/Spinner';
 import { MainEmptyPage } from './MainEmptyPage';
+import { useAppDispatch, useAppSelector } from '../store/redux';
 
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 
 export const MainPage: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const city = useSelector((state: RootState) => state.city);
-  const cityCoords = useSelector((state: RootState) => state.city.coords);
-  const cityChanged = useSelector((state: RootState) => state.city.cityChanged);
-  const offers = useSelector((state: RootState) => state.offers.items);
-  const isLoading = useSelector((state: RootState) => state.offers.isOffersLoading);
-  const error = useSelector((state: RootState) => state.offers.error);
+  const dispatch = useAppDispatch();
+  const city = useAppSelector((state) => state.city);
+  const cityCoords = useAppSelector((state) => state.city.coords);
+  const cityChanged = useAppSelector((state) => state.city.cityChanged);
+  const offers = useAppSelector((state) => state.offers.items);
+  const isLoading = useAppSelector((state) => state.offers.isOffersLoading);
+  const error = useAppSelector((state) => state.offers.error);
 
   const [sort, setSort] = useState<SortType>('Popular');
   const handleSortChange = useCallback((newSort: SortType) => {
@@ -52,7 +50,7 @@ export const MainPage: React.FC = () => {
   const handleCityClick = useCallback((selectedCity: string) => {
     dispatch(changeCity(selectedCity));
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (cityChanged) {
       dispatch(resetCityChanged());

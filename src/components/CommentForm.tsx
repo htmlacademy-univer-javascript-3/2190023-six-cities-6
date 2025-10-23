@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
-import { useDispatch } from 'react-redux';
-import type { AppDispatch } from '../store';
 import { handleCommentSubmit } from '../functions/async-acts';
+import { useAppDispatch } from '../store/redux';
 
 type CommentFormProps = {
     offerId: string;
 };
 
 export const CommentForm: React.FC<CommentFormProps> = React.memo(({ offerId }) => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: FormEvent) => {
-        await handleCommentSubmit(offerId, comment, rating, e, dispatch, setComment,setRating, setIsSubmitting);
+        await handleCommentSubmit(offerId, comment, rating, e, dispatch, setComment, setRating, setIsSubmitting);
     }
 
     return (

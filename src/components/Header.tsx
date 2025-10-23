@@ -1,15 +1,14 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 import { AuthorizationStatus } from '../store/auth-slice';
 import { selectAuthorizationStatus } from '../store/selectors';
-import type { RootState, AppDispatch } from '../store';
 import { logout } from '../store/auth-thunk';
+import { useAppDispatch, useAppSelector } from '../store/redux';
 
 export const Header: React.FC = React.memo(() => {
-    const favoriteCount = useSelector((state: RootState) => state.offers.items.filter((offer) => offer.isFavorite).length); 
-    const authorizationStatus = useSelector(selectAuthorizationStatus);
-    const dispatch = useDispatch<AppDispatch>();
+    const favoriteCount = useAppSelector((state) => state.offers.items.filter((offer) => offer.isFavorite).length);
+    const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+    const dispatch = useAppDispatch();
 
     const handleSignOut = () => {
         dispatch(logout());

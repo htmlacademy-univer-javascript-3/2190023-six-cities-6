@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import { handleLoginSubmit, handleCommentSubmit } from '../../functions/async-acts';
-import type { AppDispatch } from '../../store';
 
 describe('handleSubmit', () => {
     // handleLoginSubmit
