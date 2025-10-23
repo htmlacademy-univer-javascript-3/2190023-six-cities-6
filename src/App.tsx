@@ -6,22 +6,18 @@ import { FavoritesPage } from './pages/FavoritesPage';
 import { PropertyPage } from './pages/PropertyPage';
 import { NotFound } from './components/NotFound';
 import { PrivateRoute } from './components/PrivateRoute';
-import type { Offer } from './mocks/offers';
 
-type AppProps = {
-    offers: Offer[];
-}
 
-const App: React.FC<AppProps> = ({ offers }) => (
+const App: React.FC = () => (
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<MainPage offers={offers} />} />
+            <Route path="/" element={<MainPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route 
                 path="/favorites" 
                 element={
                     <PrivateRoute isAuthorized={true}>
-                        <FavoritesPage offers={offers} />
+                        <FavoritesPage />
                     </PrivateRoute>
                 } 
             />

@@ -18,6 +18,10 @@ export type Offer = {
     };
     description: string;
     city: string;
+    location: {
+        latitude: number;
+        longitude: number;
+    };
 };
 
 export const offers: Offer[] = [
@@ -29,7 +33,7 @@ export const offers: Offer[] = [
         rating: 4,
         isPremium: true,
         isFavorite: false,
-        previewImage: 'img/apartment-01.jpg',
+        previewImage: '/img/apartment-01.jpg',
         images: [
             'img/room.jpg',
             'img/apartment-01.jpg',
@@ -59,6 +63,10 @@ export const offers: Offer[] = [
         },
         description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
         city: 'Amsterdam',
+        location: {
+            latitude: 52.3909553943508,
+            longitude: 4.85309666406198,
+        },
     },
     {
         id: '2',
@@ -68,7 +76,7 @@ export const offers: Offer[] = [
         rating: 3,
         isPremium: false,
         isFavorite: true,
-        previewImage: 'img/room.jpg',
+        previewImage: '/img/room.jpg',
         images: [
             'img/room.jpg',
             'img/apartment-01.jpg',
@@ -89,6 +97,10 @@ export const offers: Offer[] = [
         },
         description: 'A cozy private room in the heart of the city. Perfect for solo travelers or couples.',
         city: 'Amsterdam',
+        location: {
+            latitude: 52.3609553943508,
+            longitude: 4.85309666406198,
+        },
     },
     {
         id: '3',
@@ -98,7 +110,7 @@ export const offers: Offer[] = [
         rating: 4,
         isPremium: false,
         isFavorite: false,
-        previewImage: 'img/apartment-02.jpg',
+        previewImage: '/img/apartment-02.jpg',
         images: [
             'img/apartment-02.jpg',
             'img/apartment-03.jpg',
@@ -119,6 +131,10 @@ export const offers: Offer[] = [
         },
         description: 'Spacious apartment with a beautiful canal view. Enjoy the city from your window.',
         city: 'Amsterdam',
+        location: {
+            latitude: 52.3909553943508,
+            longitude: 4.929309666406198,
+        },
     },
     {
         id: '4',
@@ -128,7 +144,7 @@ export const offers: Offer[] = [
         rating: 5,
         isPremium: true,
         isFavorite: true,
-        previewImage: 'img/apartment-03.jpg',
+        previewImage: '/img/apartment-03.jpg',
         images: [
             'img/apartment-03.jpg',
             'img/apartment-01.jpg',
@@ -154,5 +170,48 @@ export const offers: Offer[] = [
         },
         description: 'A nice and cozy apartment with a big bed. Perfect for families and groups.',
         city: 'Amsterdam',
+        location: {
+            latitude: 52.3809553943508,
+            longitude: 4.939309666406198,
+        },
+    },
+    {
+        id: '5',
+        title: 'Good spacious apartment',
+        type: 'Apartment',
+        price: 230,
+        rating: 5,
+        isPremium: true,
+        isFavorite: true,
+        previewImage: '/img/apartment-03.jpg',
+        images: [
+            'img/apartment-03.jpg',
+            'img/apartment-01.jpg',
+            'img/room.jpg',
+        ],
+        bedrooms: 3,
+        maxAdults: 6,
+        goods: [
+            'Wi-Fi',
+            'Washing machine',
+            'Towels',
+            'Heating',
+            'Coffe machine',
+            'Kitchen',
+            'Dishwasher',
+            'Cable TV',
+            'Fridge',
+        ],
+        host: {
+            name: 'Luke',
+            avatarUrl: 'img/avatar-max.jpg',
+            isPro: false,
+        },
+        description: 'Grand and spacious apartment in the heart of Paris.',
+        city: 'Paris',
+        location: {
+            latitude: 48.867378, 
+            longitude: 2.352460,
+        },
     },
 ]
