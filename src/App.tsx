@@ -1,34 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
+import { fetchOffers } from './store/offer-thunks';
 import { MainPage } from './pages/MainPage';
 import { LoginPage } from './pages/LoginPage';
 import { FavoritesPage } from './pages/FavoritesPage';
-import { PropertyPage } from './pages/PropertyPage';
+import { OfferPage } from './pages/OfferPage';
 import { NotFound } from './components/NotFound';
 import { PrivateRoute } from './components/PrivateRoute';
-import type { Offer } from './mocks/offers';
+import { checkAuth } from './store/auth-thunk';
+import { Header } from './components/Header';
+import { useAppDispatch } from './store/redux';
 
-type AppProps = {
-    offers: Offer[];
-}
+const App: React.FC = () => {
+    const dispatch = useAppDispatch();
 
-const App: React.FC<AppProps> = ({ offers }) => (
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<MainPage offers={offers} />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route 
-                path="/favorites" 
-                element={
-                    <PrivateRoute isAuthorized={true}>
-                        <FavoritesPage offers={offers} />
-                    </PrivateRoute>
-                } 
-            />
-            <Route path="/offer/:id" element={<PropertyPage />} />
-            <Route path="*" element={<NotFound />} />
-        </Routes>
-    </BrowserRouter>
-);
+    useEffect(() => {
+        dispatch(checkAuth());
+        dispatch(fetchOffers());
+    }, [dispatch]);
+
+    return (
+        <BrowserRouter>
+            <Header />
+            <Routes>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                    path="/favorites"
+                    element={
+                        <PrivateRoute>
+                            <FavoritesPage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route path="/offer/:id" element={<OfferPage />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>
+    );
+};
 
 export default App;

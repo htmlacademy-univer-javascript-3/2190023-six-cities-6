@@ -1,21 +1,11 @@
 import React from 'react';
-
-export type Review = {
-  id: string;
-  user: {
-    name: string;
-    avatarUrl: string;
-  };
-  rating: number;
-  comment: string;
-  date: string;
-};
+import type { Review } from '../types/review';
 
 type ReviewItemProps = {
   review: Review;
 };
 
-export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => (
+export const ReviewItem: React.FC<ReviewItemProps> = React.memo(({ review }) => (
   <li className="reviews__item">
     <div className="reviews__user user">
       <div className="reviews__avatar-wrapper user__avatar-wrapper">
@@ -42,4 +32,4 @@ export const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => (
       </time>
     </div>
   </li>
-);
+));
