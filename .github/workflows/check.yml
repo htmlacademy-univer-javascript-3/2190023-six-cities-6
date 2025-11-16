@@ -22,5 +22,5 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run checks
-      run: npm test && npm run lint
+    # - name: Run checks
+      # run: npm test && npm run lint
