@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import type { AppDispatch } from '../store';
 import type { RootState } from '../store/index';
 import { Map } from '../components/Map';
 import { OffersList } from '../components/OffersList';
@@ -8,19 +9,22 @@ import { changeCity } from '../store/action';
 import { SortOptions } from '../components/SortOptions';
 import type { SortType } from '../components/SortOptions';
 import { Spinner } from '../components/Spinner';
-import { Header } from '../components/Header';
 
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 
 export const MainPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const city = useSelector((state: RootState) => state.city);
   const offers = useSelector((state: RootState) => state.offers.items);
   const isLoading = useSelector((state: RootState) => state.offers.isOffersLoading);
   const error = useSelector((state: RootState) => state.offers.error);
 
   const [sort, setSort] = useState<SortType>('Popular');
+  const handleSortChange = useCallback((newSort: SortType) => {
+    setSort(newSort);
+  }, []);
+
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   const filteredOffers = useMemo(
@@ -41,27 +45,24 @@ export const MainPage: React.FC = () => {
     }
   }, [filteredOffers, sort]);
 
-  const handleCityClick = (selectedCity: string) => {
+  const handleCityClick = useCallback((selectedCity: string) => {
     dispatch(changeCity(selectedCity));
-  };
+  }, [dispatch]);
 
-  const [fakeLoading, setFakeLoading] = useState(true);
-  React.useEffect(() => {
-    const timer = setTimeout(() => setFakeLoading(false), 5000000);
-      return () => clearTimeout(timer);
-  }, []);
+  // const [fakeLoading, setFakeLoading] = useState(true);
+  // React.useEffect(() => {
+  //   const timer = setTimeout(() => setFakeLoading(false), 5000000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   return (
     <>
       <div className="page page--gray page--main">
-
-        <Header />
-
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <CitiesList 
+              <CitiesList
                 cities={CITIES}
                 activeCity={city}
                 onCityClick={handleCityClick}
@@ -73,7 +74,7 @@ export const MainPage: React.FC = () => {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{filteredOffers.length} places to stay in {city}</b>
-                <SortOptions activeSort={sort} onSortChange={setSort} />
+                <SortOptions activeSort={sort} onSortChange={handleSortChange} />
 
                 {isLoading /*|| fakeLoading */ ? (
                   <div><Spinner /></div>
@@ -82,9 +83,9 @@ export const MainPage: React.FC = () => {
                 ) : (
                   <OffersList offers={sortedOffers} onCardHover={setActiveOfferId} />
                 )}
-                
+
               </section>
-              <section className="cities__map map" style={{ width: '45%'}}>
+              <section className="cities__map map" style={{ width: '45%' }}>
                 <Map offers={filteredOffers} activeOfferId={activeOfferId} />
               </section>
             </div>

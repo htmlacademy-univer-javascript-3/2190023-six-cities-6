@@ -10,10 +10,9 @@ import { OfferPage } from './pages/OfferPage';
 import { NotFound } from './components/NotFound';
 import { PrivateRoute } from './components/PrivateRoute';
 import { checkAuth } from './store/auth-thunk';
+import { Header } from './components/Header';
 
 const App: React.FC = () => {
-    // localStorage.setItem('six-cities-token', 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=');
-
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -23,6 +22,7 @@ const App: React.FC = () => {
 
     return (
         <BrowserRouter>
+        <Header />
             <Routes>
                 <Route path="/" element={<MainPage />} />
                 <Route path="/login" element={<LoginPage />} />

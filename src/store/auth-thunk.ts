@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { AxiosInstance } from 'axios';
+import type { AxiosInstance, AxiosError } from 'axios';
 import { setAuthorizationStatus, AuthorizationStatus } from './auth-slice';
 
 type LoginData = {
@@ -15,28 +15,30 @@ export const login = createAsyncThunk<void, LoginData, { extra: AxiosInstance }>
       const { token } = response.data;
       localStorage.setItem('six-cities-token', token);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
-    } catch (error: any) {
-      if (error.response?.status === 400) {
-        return rejectWithValue('Некорректные данные. Проверьте email и пароль.');
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 400) {
+        return rejectWithValue('Invalid email or password');
       }
       dispatch(setAuthorizationStatus(AuthorizationStatus.Unauthorized));
-      return rejectWithValue('Ошибка авторизации');
+      return rejectWithValue(`Authorization error: ${axiosError.message}`);
     }
   }
 );
 
 export const checkAuth = createAsyncThunk<void, undefined, { extra: AxiosInstance }>(
-    'auth/checkAuth',
-    async (_arg, { extra: api, dispatch }) => {
-        try {
-            await api.get('/login');
-            dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
-        } catch (error: any) {
-            if (error.response?.status === 401) {
-                dispatch(setAuthorizationStatus(AuthorizationStatus.Unauthorized));
-            } else {
-                dispatch(setAuthorizationStatus(AuthorizationStatus.Unknown));
-            }
-        }
+  'auth/checkAuth',
+  async (_arg, { extra: api, dispatch }) => {
+    try {
+      await api.get('/login');
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 401) {
+        dispatch(setAuthorizationStatus(AuthorizationStatus.Unauthorized));
+      } else {
+        dispatch(setAuthorizationStatus(AuthorizationStatus.Unknown));
+      }
     }
+  }
 );

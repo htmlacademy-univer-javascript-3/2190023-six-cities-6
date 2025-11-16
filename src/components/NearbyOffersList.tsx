@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { Offer } from '../types/offer';
 import { PlaceCard } from '../components/PlaceCard';
 
@@ -9,12 +9,9 @@ type NearbyOffersListProps = {
 
 export const NearbyOffersList: React.FC<NearbyOffersListProps> = ({ offers, onHover }) => {
 
-    const [hoverCardId, setHoverCardId] = useState<string | null>(null);
-
     const handleCardHover = (id: string | null) => {
-        setHoverCardId(id);
         onHover?.(id);
-    };
+    }
 
     return (
         <div className="near-places__list places__list">

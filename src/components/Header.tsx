@@ -1,19 +1,19 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
-import type { RootState } from '../store';
 import { AuthorizationStatus, setAuthorizationStatus } from '../store/auth-slice';
+import { selectFavoriteCount, selectAuthorizationStatus } from '../store/selectors';
 
-export const Header: React.FC = () => {
-    const offers = useSelector((state: RootState) => state.offers.items);
-    const favoriteCount = offers.filter((offer) => offer.isFavorite).length;
-    const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
+export const Header: React.FC = React.memo(() => {
+    const favoriteCount = useSelector(selectFavoriteCount);
+    const authorizationStatus = useSelector(selectAuthorizationStatus);
     const dispatch = useDispatch();
 
     const handleSignOut = () => {
         localStorage.removeItem('six-cities-token');
         dispatch(setAuthorizationStatus(AuthorizationStatus.Unauthorized));
-    }
+    };
+
     return (
         <header className="header">
             <div className="container">
@@ -27,10 +27,8 @@ export const Header: React.FC = () => {
                         <ul className="header__nav-list">
                             <li className="header__nav-item user">
                                 {authorizationStatus === AuthorizationStatus.Authorized ? (
-
                                     <div className="header__nav-link header__nav-link--profile">
-                                        <div className="header__avatar-wrapper user__avatar-wrapper">
-                                        </div>
+                                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                                         <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
                                         <Link to="/favorites" style={{ textDecoration: 'none', color: 'inherit' }}>
                                             <span className="header__favorite-count">{favoriteCount}</span>
@@ -45,10 +43,11 @@ export const Header: React.FC = () => {
                             </li>
                             {authorizationStatus === AuthorizationStatus.Authorized && (
                                 <li className="header__nav-item">
-                                    <button 
-                                        className="header__nav-link" 
+                                    <button
+                                        className="header__nav-link"
                                         style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                                        onClick={handleSignOut}>
+                                        onClick={handleSignOut}
+                                    >
                                         <span className="header__signout">Sign out</span>
                                     </button>
                                 </li>
@@ -59,4 +58,4 @@ export const Header: React.FC = () => {
             </div>
         </header>
     );
-};
+});

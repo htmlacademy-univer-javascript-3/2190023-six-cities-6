@@ -15,8 +15,6 @@ export const createAPI = (): AxiosInstance => {
         const token = localStorage.getItem(TOKEN_KEY);
         if (token) {
             config.headers['X-Token'] = token;
-        } else {
-            console.error('No token found in localStorage');
         }
         return config;
     });

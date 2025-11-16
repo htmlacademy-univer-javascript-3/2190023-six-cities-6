@@ -8,7 +8,7 @@ type CommentFormProps = {
     offerId: string;
 };
 
-export const CommentForm: React.FC<CommentFormProps> = ({ offerId }) => {
+export const CommentForm: React.FC<CommentFormProps> = React.memo(({ offerId }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState(0);
@@ -77,4 +77,4 @@ export const CommentForm: React.FC<CommentFormProps> = ({ offerId }) => {
             </div>
         </form>
     );
-}
+});
