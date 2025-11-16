@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../store';
-import { postComment } from '../store/offer-thunks';
+import { handleCommentSubmit } from '../functions/async-acts';
 
 type CommentFormProps = {
     offerId: string;
@@ -13,14 +13,9 @@ export const CommentForm: React.FC<CommentFormProps> = React.memo(({ offerId }) 
     const [comment, setComment] = useState('');
     const [rating, setRating] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
+
     const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        await dispatch(postComment({ offerId, comment, rating }));
-        setComment('');
-        setRating(0);
-        setIsSubmitting(false);
+        await handleCommentSubmit(offerId, comment, rating, e, dispatch, setComment,setRating, setIsSubmitting);
     }
 
     return (

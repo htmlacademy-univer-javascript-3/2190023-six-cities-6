@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Navigate, useNavigate } from 'react-router';
-import { fetchOffer, fetchNearbyOffers, fetchReviews, changeFaforiteStatus } from '../store/offer-thunks';
+import { fetchOffer, fetchNearbyOffers, fetchReviews, changeFavoriteStatus } from '../store/offer-thunks';
 import type { RootState, AppDispatch } from '../store';
 import { AuthorizationStatus } from '../store/auth-slice';
 import { ReviewList } from '../components/ReviewList';
@@ -45,7 +45,7 @@ export const OfferPage: React.FC = () => {
     if (!offer?.id) {
       return;
     }
-    dispatch(changeFaforiteStatus({
+    dispatch(changeFavoriteStatus({
       offerId: offer.id,
       status: offer.isFavorite ? 0 : 1
     }));
