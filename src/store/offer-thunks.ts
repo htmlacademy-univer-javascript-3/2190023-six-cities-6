@@ -1,25 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { AxiosInstance, AxiosError } from 'axios';
+import { type AxiosInstance, AxiosError } from 'axios';
 import type { Offer } from '../types/offer';
 import type { Review } from '../types/review';
 
-// для того чтобы затестить. на сервере все офферы не помечены как isFavorite
-// const TEST_FAVORITE_IDS = [
-//     "4b4e4d35-fed3-4c2d-917f-9414ad9a27e1",
-//     "5a0bf62c-3351-4799-88d8-935036574480",
-//     "bf1f1426-4837-4e3a-ae80-783e6459c348"
-// ]
-
 export const fetchOffer = createAsyncThunk<Offer, string, { extra: AxiosInstance }>(
-  'offers/fetchOffer',
-  async (id, { extra: api, rejectWithValue }) => {
-    try {
-      const { data } = await api.get<Offer>(`/offers/${id}`)
-      return data;
-    } catch (err) {
-      return rejectWithValue(`Failed to fetch offer: ${err}`);
+    'offers/fetchOffer',
+    async (id, { extra: api, rejectWithValue }) => {
+        try {
+            const { data } = await api.get<Offer>(`/offers/${id}`)
+            return data;
+        } catch (err) {
+            return rejectWithValue(`Failed to fetch offer: ${err}`);
+        }
     }
-  }
 );
 
 export const fetchNearbyOffers = createAsyncThunk<Offer[], string, { extra: AxiosInstance }>(
@@ -28,13 +21,13 @@ export const fetchNearbyOffers = createAsyncThunk<Offer[], string, { extra: Axio
         try {
             const { data } = await api.get<Offer[]>(`/offers/${id}/nearby`);
             return data;
-        } catch (err){
+        } catch (err) {
             return rejectWithValue(`Failed to fetch nearby offers: ${err}`);
         }
     }
 );
 
-export const fetchReviews = createAsyncThunk<Review[], string, { extra: AxiosInstance }> (
+export const fetchReviews = createAsyncThunk<Review[], string, { extra: AxiosInstance }>(
     'offers/fetchReviews',
     async (id, { extra: api, rejectWithValue }) => {
         try {
@@ -52,12 +45,6 @@ export const fetchOffers = createAsyncThunk<Offer[], undefined, { extra: AxiosIn
     async (_arg, { extra: api, rejectWithValue }) => {
         try {
             const { data } = await api.get<Offer[]>('/offers');
-            // const patchedData = data.map(offer => 
-            //     TEST_FAVORITE_IDS.includes(offer.id)
-            //         ? { ...offer, isFavorite: true }
-            //         : offer
-            //     );
-            // return patchedData;
             return data;
         } catch (error) {
             return rejectWithValue(`Failed to fetch offers: ${error}`);
@@ -74,12 +61,33 @@ type PostCommentArgs = {
 export const postComment = createAsyncThunk<void, PostCommentArgs, { extra: AxiosInstance }>(
     'offers/postComment',
     async ({ offerId, comment, rating }, { extra: api, dispatch, rejectWithValue }) => {
-        try { 
+        try {
             await api.post(`/comments/${offerId}`, { comment, rating });
             dispatch(fetchReviews(offerId));
         } catch (error: unknown) {
             const axiosError = error as AxiosError;
             return rejectWithValue(`Failed to post comment: ${axiosError}`);
+        }
+    }
+);
+
+export const fetchFavorites = createAsyncThunk<Offer[], void, { extra: AxiosInstance }>(
+    'offers/fetchFavorites',
+    async (_arg, { extra: api }) => {
+        const response = await api.get('/favorite');
+        return response.data;
+    }
+)
+
+export const changeFaforiteStatus = createAsyncThunk<Offer, { offerId: string; status: 0 | 1 }, { extra: AxiosInstance }>(
+    'offers/changeFavoriteStatus',
+    async ({ offerId, status }, { extra: api, rejectWithValue }) => {
+        try {
+            const { data } = await api.post<Offer>(`/favorite/${offerId}/${status}`);
+            return data;
+        } catch (error: unknown) {
+            const axiosError = error as AxiosError;
+            return rejectWithValue(`Failed to change favorite status: ${axiosError}`);
         }
     }
 );

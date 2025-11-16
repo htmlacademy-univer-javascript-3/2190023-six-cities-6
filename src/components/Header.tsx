@@ -1,17 +1,18 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
-import { AuthorizationStatus, setAuthorizationStatus } from '../store/auth-slice';
-import { selectFavoriteCount, selectAuthorizationStatus } from '../store/selectors';
+import { AuthorizationStatus } from '../store/auth-slice';
+import { selectAuthorizationStatus } from '../store/selectors';
+import type { RootState, AppDispatch } from '../store';
+import { logout } from '../store/auth-thunk';
 
 export const Header: React.FC = React.memo(() => {
-    const favoriteCount = useSelector(selectFavoriteCount);
+    const favoriteCount = useSelector((state: RootState) => state.offers.items.filter((offer) => offer.isFavorite).length); 
     const authorizationStatus = useSelector(selectAuthorizationStatus);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const handleSignOut = () => {
-        localStorage.removeItem('six-cities-token');
-        dispatch(setAuthorizationStatus(AuthorizationStatus.Unauthorized));
+        dispatch(logout());
     };
 
     return (
