@@ -7,6 +7,9 @@ import { CitiesList } from '../components/CitiesList';
 import { changeCity } from '../store/action';
 import { SortOptions } from '../components/SortOptions';
 import type { SortType } from '../components/SortOptions';
+import { Spinner } from '../components/Spinner';
+import { Header } from '../components/Header';
+import '../custom-css/spinner.css';
 
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
@@ -14,13 +17,15 @@ const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseld
 export const MainPage: React.FC = () => {
   const dispatch = useDispatch();
   const city = useSelector((state: RootState) => state.city);
-  const offers = useSelector((state: RootState) => state.offers);
+  const offers = useSelector((state: RootState) => state.offers.items);
+  const isLoading = useSelector((state: RootState) => state.offers.isLoading);
+  const error = useSelector((state: RootState) => state.offers.error);
 
   const [sort, setSort] = useState<SortType>('Popular');
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   const filteredOffers = useMemo(
-    () => offers.filter((offer) => offer.city === city),
+    () => offers.filter((offer) => offer.city.name === city),
     [offers, city]
   );
 
@@ -41,6 +46,12 @@ export const MainPage: React.FC = () => {
     dispatch(changeCity(selectedCity));
   };
 
+  const [fakeLoading, setFakeLoading] = useState(true);
+  React.useEffect(() => {
+    const timer = setTimeout(() => setFakeLoading(false), 5000000);
+      return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
       <div style={{ display: "none" }}>
@@ -48,34 +59,8 @@ export const MainPage: React.FC = () => {
       </div>
 
       <div className="page page--gray page--main">
-        <header className="header">
-          <div className="container">
-            <div className="header__wrapper">
-              <div className="header__left">
-                <a className="header__logo-link header__logo-link--active">
-                  <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-                </a>
-              </div>
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <a className="header__nav-link header__nav-link--profile" href="#">
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                      <span className="header__favorite-count">3</span>
-                    </a>
-                  </li>
-                  <li className="header__nav-item">
-                    <a className="header__nav-link" href="#">
-                      <span className="header__signout">Sign out</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </header>
+
+        <Header />
 
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
@@ -94,7 +79,15 @@ export const MainPage: React.FC = () => {
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{filteredOffers.length} places to stay in {city}</b>
                 <SortOptions activeSort={sort} onSortChange={setSort} />
-                <OffersList offers={sortedOffers} onCardHover={setActiveOfferId} />
+
+                {isLoading /*|| fakeLoading */ ? (
+                  <div><Spinner /></div>
+                ) : error ? (
+                  <div>{error}</div>
+                ) : (
+                  <OffersList offers={sortedOffers} onCardHover={setActiveOfferId} />
+                )}
+                
               </section>
               <div className="cities__right-section">
                 <Map offers={filteredOffers} className="cities__map map" activeOfferId={activeOfferId} />

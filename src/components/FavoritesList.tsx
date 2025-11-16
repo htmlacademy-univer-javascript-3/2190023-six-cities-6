@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Offer } from '../mocks/offers';
+import type { Offer } from '../types/offer';
 import { PlaceCard } from './PlaceCard';
 
 type FavoritesListProps = {
