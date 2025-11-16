@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
 import { OffersList } from '../components/OffersList';
-import type { RootState } from '../store';
-import { useSelector } from 'react-redux';
 import { Map } from '../components/Map';
 import { CITY_COORDINATES } from '../constants/city-coordinates';
+import { useAppSelector } from '../store/redux';
 
 
 export const NearbyOffersSection: React.FC = React.memo(() => {
-    const nearbyOffers = useSelector((state: RootState) => state.offers.nearbyOffers);
+    const nearbyOffers = useAppSelector((state) => state.offers.nearbyOffers);
     const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-    const currentOffer = useSelector((state: RootState) => state.offers.currentOffer);
+    const currentOffer = useAppSelector((state) => state.offers.currentOffer);
 
-    const cityCoords: [number, number] = 
+    const cityCoords: [number, number] =
         [
-            currentOffer?.city.location.latitude ?? CITY_COORDINATES['Amsterdam'][0], 
+            currentOffer?.city.location.latitude ?? CITY_COORDINATES['Amsterdam'][0],
             currentOffer?.city.location.longitude ?? CITY_COORDINATES['Amsterdam'][1]
         ];
 

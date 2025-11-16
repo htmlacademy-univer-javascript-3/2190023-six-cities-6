@@ -1,8 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { reducer } from './reducer';
-import { createAPI } from '../api';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import offersReducer from './offer-slice';
+import cityReducer from './city-slice';
+import authReducer from './auth-slice';
+import { api } from '../api';
 
-const api = createAPI();
+export const reducer = combineReducers({
+    offers: offersReducer,
+    city: cityReducer,
+    auth: authReducer,
+});
 
 export const store = configureStore({
     reducer,
@@ -12,6 +18,3 @@ export const store = configureStore({
         },
     }),
 });
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;

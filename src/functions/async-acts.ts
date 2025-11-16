@@ -1,5 +1,4 @@
 import type { FormEvent } from 'react';
-import type { AppDispatch } from "../store";
 import { postComment } from '../store/offer-thunks';
 import { login } from '../store/auth-thunk';
 

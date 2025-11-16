@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router';
 import type { Offer } from '../types/offer';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../store';
 import { AuthorizationStatus } from '../store/auth-slice';
 import { changeFavoriteStatus } from '../store/offer-thunks';
+import { useAppDispatch, useAppSelector } from '../store/redux';
 
 type PlaceCardProps = {
     offer: Offer;
@@ -13,15 +12,15 @@ type PlaceCardProps = {
     onHover?: (id: string | null) => void;
 };
 
-export const PlaceCard: React.FC<PlaceCardProps> = React.memo(({ 
+export const PlaceCard: React.FC<PlaceCardProps> = React.memo(({
     offer,
     cardClassName = 'cities__card',
     imageWrapperClassName = 'cities__image-wrapper',
     onHover
- }) => {
-    const dispatch = useDispatch<AppDispatch>();
+}) => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const isAuthorized = useSelector((state: RootState) => state.auth.authorizationStatus) === AuthorizationStatus.Authorized;
+    const isAuthorized = useAppSelector((state) => state.auth.authorizationStatus) === AuthorizationStatus.Authorized;
 
     const handleFavoriteClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -36,7 +35,7 @@ export const PlaceCard: React.FC<PlaceCardProps> = React.memo(({
     }
 
     return (
-        <article 
+        <article
             className={`${cardClassName} place-card`}
             onMouseEnter={() => onHover?.(offer.id)}
             onMouseLeave={() => onHover?.(null)}
@@ -48,12 +47,12 @@ export const PlaceCard: React.FC<PlaceCardProps> = React.memo(({
             )}
             <div className={`${imageWrapperClassName} place-card__image-wrapper`}>
                 <Link to={`/offer/${offer.id}`}>
-                    <img 
-                        className="place-card__image" 
-                        src={offer.previewImage} 
-                        width="260" 
-                        height="200" 
-                        alt={offer.title} 
+                    <img
+                        className="place-card__image"
+                        src={offer.previewImage}
+                        width="260"
+                        height="200"
+                        alt={offer.title}
                     />
                 </Link>
             </div>
@@ -63,8 +62,8 @@ export const PlaceCard: React.FC<PlaceCardProps> = React.memo(({
                         <b className="place-card__price-value">&euro;{offer.price}</b>
                         <span className="place-card__price-text">&#47;&nbsp;night</span>
                     </div>
-                    <button 
-                        className={`place-card__bookmark-button button${offer.isFavorite ? ' place-card__bookmark-button--active' : ''}`} 
+                    <button
+                        className={`place-card__bookmark-button button${offer.isFavorite ? ' place-card__bookmark-button--active' : ''}`}
                         type="button"
                         onClick={handleFavoriteClick}
                     >

@@ -1,9 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { render, screen } from "@testing-library/react";
-import { Provider } from "react-redux";
-import { describe, expect, it, vi } from "vitest";
-import App from "../../App";
-import { AuthorizationStatus } from "../../store/auth-slice";
+import { configureStore } from '@reduxjs/toolkit';
+import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { describe, expect, it, vi } from 'vitest';
+import App from '../../App';
+import { AuthorizationStatus } from '../../store/auth-slice';
 
 vi.mock('../../components/Header', () => ({
     Header: () => <div data-testid="header" />,

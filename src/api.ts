@@ -5,7 +5,7 @@ const BASE_URL = 'https://14.design.htmlacademy.pro/six-cities';
 const TIMEOUT = 5000;
 const TOKEN_KEY = 'six-cities-token';
 
-export const createAPI = (): AxiosInstance => {
+const createAPI = (): AxiosInstance => {
     const api = axios.create({
         baseURL: BASE_URL,
         timeout: TIMEOUT,
@@ -21,3 +21,5 @@ export const createAPI = (): AxiosInstance => {
 
     return api;
 };
+
+export const api = createAPI();

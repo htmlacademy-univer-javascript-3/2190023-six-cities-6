@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../store';
 import { useNavigate, Navigate } from 'react-router';
 import { AuthorizationStatus } from '../store/auth-slice';
 import { handleLoginSubmit } from '../functions/async-acts';
+import { useAppDispatch, useAppSelector } from '../store/redux';
 
 export const LoginPage: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const authorizationStatus = useSelector((state: RootState) => state.auth.authorizationStatus);
+    const authorizationStatus = useAppSelector((state) => state.auth.authorizationStatus);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

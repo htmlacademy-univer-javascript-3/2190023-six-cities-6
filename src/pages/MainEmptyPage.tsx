@@ -1,9 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../store/index';
+import { useAppSelector } from '../store/redux';
 
 export const MainEmptyPage: React.FC = () => {
-    const city = useSelector((state: RootState) => state.city);
+    const city = useAppSelector((state) => state.city);
     return (
         <>
             <div className="page page--gray page--main">
