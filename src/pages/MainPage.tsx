@@ -1,13 +1,25 @@
 import React from 'react';
-import type { Offer } from '../mocks/offers';
-import { OffersList } from '../components/OffersList';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState } from '../store/index';
 import { Map } from '../components/Map';
+import { OffersList } from '../components/OffersList';
+import { CitiesList } from '../components/CitiesList';
+import { changeCity } from '../store/action';
 
-type MainPageProps = {
-  offers: Offer[];
-}
+const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export const MainPage: React.FC<MainPageProps> = ({ offers }) => {
+
+export const MainPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const city = useSelector((state: RootState) => state.city);
+  const offers = useSelector((state: RootState) => state.offers);
+
+  const filteredOffers = offers.filter((offer) => offer.city === city);
+
+  const handleCityClick = (selectedCity: string) => {
+    dispatch(changeCity(selectedCity));
+  };
+
   return (
     <>
       <div style={{ display: "none" }}>
@@ -48,45 +60,18 @@ export const MainPage: React.FC<MainPageProps> = ({ offers }) => {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active">
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
-              </ul>
+              <CitiesList 
+                cities={CITIES}
+                activeCity={city}
+                onCityClick={handleCityClick}
+              />
             </section>
           </div>
           <div className="cities">
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+                <b className="places__found">{filteredOffers.length} places to stay in {city}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -102,10 +87,10 @@ export const MainPage: React.FC<MainPageProps> = ({ offers }) => {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OffersList offers={offers} />
+                <OffersList offers={filteredOffers} />
               </section>
               <div className="cities__right-section">
-                <Map offers={offers} className="cities__map map" />
+                <Map offers={filteredOffers} className="cities__map map" />
               </div>
             </div>
           </div>
