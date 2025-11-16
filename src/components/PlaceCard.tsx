@@ -6,15 +6,21 @@ type PlaceCardProps = {
     offer: Offer;
     cardClassName?: string;
     imageWrapperClassName?: string;
+    onHover?: (id: string | null) => void;
 };
 
 export const PlaceCard: React.FC<PlaceCardProps> = ({ 
     offer,
     cardClassName = 'cities__card',
-    imageWrapperClassName = 'cities__image-wrapper'
+    imageWrapperClassName = 'cities__image-wrapper',
+    onHover
  }) => {
     return (
-        <article className={`${cardClassName} place-card`}>
+        <article 
+            className={`${cardClassName} place-card`}
+            onMouseEnter={() => onHover?.(offer.id)}
+            onMouseLeave={() => onHover?.(null)}
+        >
             {offer.isPremium && (
                 <div className="place-card__mark">
                     <span>Premium</span>
