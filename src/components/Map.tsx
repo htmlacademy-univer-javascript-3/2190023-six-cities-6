@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+import type { Offer } from '../types/offer';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // import type { Offer } from '../mocks/offers';
 
 type MapProps = {
   offers: Offer[];
-  className?: string;
   activeOfferId?: string | null;
 };
 
@@ -21,7 +21,7 @@ const activeIcon = L.icon({
   iconAnchor: [13, 39],
 });
 
-export const Map: React.FC<MapProps> = ({ offers, className = '', activeOfferId }) => {
+export const Map: React.FC<MapProps> = ({ offers, activeOfferId }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const leafletMapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.LayerGroup | null>(null);
@@ -66,9 +66,8 @@ export const Map: React.FC<MapProps> = ({ offers, className = '', activeOfferId 
   }, [offers, activeOfferId]);
 
   return (
-    <section
+    <div
       ref={mapRef}
-      className={`map ${className}`}
       style={{ height: '100%', width: '100%' }}
       id="cities__leaflet-map-wrapper"
     />

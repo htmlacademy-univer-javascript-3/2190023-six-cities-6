@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/login-thunk';
+import { login } from '../store/auth-thunk';
 import type { AppDispatch, RootState } from '../store';
 import { Header } from '../components/Header';
 import { useNavigate } from 'react-router';

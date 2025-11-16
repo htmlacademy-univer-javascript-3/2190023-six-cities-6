@@ -4,7 +4,7 @@ import type { Offer } from '../types/offer';
 
 type OffersListProps = {
     offers: Offer[];
-    onCardHover?: (id: string | null) => void;
+    onCardHover?: (offerId: string | null) => void;
 }
 
 export const OffersList: React.FC<OffersListProps> = ({ offers, onCardHover }) => {
