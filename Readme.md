@@ -1,7 +1,12 @@
+# Ссылка на codesandbox:
+https://codesandbox.io/p/github/kradunches/2190023-six-cities-6/codesandbox?workspaceId=ws_RdTjf3yFZs6uPughChm6jf
+
+(там разворачивается из git ветки codesandbox)
+
 # Личный проект «Шесть городов»
 
 * Студент: [Александр Черяев](https://up.htmlacademy.ru/univer-js3/6/user/2190023).
-* Наставник: `Неизвестно`.
+* Наставник: `Андрей Осипук`.
 
 ---
 
