@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom/vitest'
 import { describe, expect, it, vi } from "vitest"
 import { render, screen } from '@testing-library/react';
-import { FavoritesList } from "../../components/FavoritesList";
-import type { Offer } from '../../types/offer';
-import { NearbyOffersList } from '../../components/NearbyOffersList';
+import { FavoritesList } from "./favorites-list";
+import type { Offer } from '../types/offer';
+import { NearbyOffersList } from './nearby-offers-list';
 
-vi.mock('../../components/PlaceCard', () => ({
+vi.mock('./place-card', () => ({
     PlaceCard: ({ offer }: { offer: Offer }) => <div data-testid="place-card">{offer.title ?? offer.id}</div>,
 }));
 

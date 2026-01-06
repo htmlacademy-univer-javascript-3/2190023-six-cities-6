@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { handleLoginSubmit, handleCommentSubmit } from '../../functions/async-acts';
+import { handleCommentSubmit, handleLoginSubmit } from './async-acts';
 
 describe('handleSubmit', () => {
     // handleLoginSubmit

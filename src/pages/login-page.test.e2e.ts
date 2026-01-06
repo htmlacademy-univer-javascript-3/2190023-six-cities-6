@@ -85,6 +85,9 @@ test.describe('LoginPage e2e', () => {
         await mockCheckAuth(page, 200);
         await mockFavorites(page);
 
+        await page.goto('/');
+        await expect(page).toHaveURL(/\/$/);
+
         await page.goto('/login');
         await expect(page).toHaveURL(/\/$/);
     });

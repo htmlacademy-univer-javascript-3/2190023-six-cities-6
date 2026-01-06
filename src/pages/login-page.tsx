@@ -31,9 +31,10 @@ export const LoginPage: React.FC = () => {
                             <h1 className="login__title">Sign in</h1>
                             <form className="login__form form" onSubmit={handleSubmit}>
                                 <div className="login__input-wrapper form__input-wrapper">
-                                    <label>
+                                    <label htmlFor="email">
                                         E-mail
                                         <input
+                                            id="email"
                                             className="login__input form__input"
                                             type="email"
                                             name="email"
@@ -44,9 +45,10 @@ export const LoginPage: React.FC = () => {
                                     </label>
                                 </div>
                                 <div className="login__input-wrapper form__input-wrapper">
-                                    <label>
+                                    <label htmlFor="password">
                                         Password
                                         <input
+                                            id="password"
                                             className="login__input form__input"
                                             type="password"
                                             name="password"

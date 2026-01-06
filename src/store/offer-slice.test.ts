@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import offersReducer, { type OffersState } from '../../store/offer-slice';
+import offersReducer, { type OffersState } from './offer-slice';
 import {
     fetchOffers,
     fetchOffer,
@@ -7,11 +7,11 @@ import {
     fetchReviews,
     fetchFavorites,
     changeFavoriteStatus,
-} from '../../store/offer-thunks';
+} from './offer-thunks';
 
-import { clearFavorites } from '../../store/action';
-import type { Offer } from '../../types/offer';
-import type { Review } from '../../types/review';
+import { clearFavorites } from './action';
+import type { Offer } from '../types/offer';
+import type { Review } from '../types/review';
 
 const makeOffer = (id: string, isFavorite = false): Offer => ({
     id,

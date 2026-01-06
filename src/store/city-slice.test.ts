@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import cityReducer, { resetCityChanged } from '../../store/city-slice';
-import { changeCity } from '../../store/action';
-import { CITY_COORDINATES } from '../../constants/city-coordinates';
+import cityReducer, { resetCityChanged } from './city-slice';
+import { changeCity } from './action';
+import { CITY_COORDINATES } from '../constants/city-coordinates';
 
 describe('citySliceReducer', () => {
     it('should return initial state', () => {

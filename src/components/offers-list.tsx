@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlaceCard } from './PlaceCard';
+import { PlaceCard } from './place-card';
 import type { Offer } from '../types/offer';
 
 type OffersListProps = {

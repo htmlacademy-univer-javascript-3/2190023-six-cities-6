@@ -1,7 +1,7 @@
 import React from "react";
 import { AuthorizationStatus } from "../store/auth-slice";
 import { Navigate } from 'react-router';
-import { Spinner } from "./Spinner";
+import { Spinner } from "./spinner";
 import { useAppSelector } from "../store/redux";
 
 type PrivateRouteProps = {
