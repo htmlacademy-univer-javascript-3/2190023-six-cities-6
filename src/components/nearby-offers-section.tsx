@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { OffersList } from '../components/OffersList';
-import { Map } from '../components/Map';
+import { OffersList } from './offers-list';
+import { Map } from './map';
 import { CITY_COORDINATES } from '../constants/city-coordinates';
 import { useAppSelector } from '../store/redux';
 

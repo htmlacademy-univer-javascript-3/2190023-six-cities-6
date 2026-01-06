@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { fetchOffers } from './store/offer-thunks';
-import { MainPage } from './pages/MainPage';
-import { LoginPage } from './pages/LoginPage';
-import { FavoritesPage } from './pages/FavoritesPage';
-import { OfferPage } from './pages/OfferPage';
-import { NotFound } from './components/NotFound';
-import { PrivateRoute } from './components/PrivateRoute';
+import { MainPage } from './pages/main-page';
+import { LoginPage } from './pages/login-page';
+import { FavoritesPage } from './pages/favorites-page';
+import { OfferPage } from './pages/offer-page';
+import { NotFound } from './components/not-found';
+import { PrivateRoute } from './components/private-route';
 import { checkAuth } from './store/auth-thunk';
-import { Header } from './components/Header';
 import { useAppDispatch } from './store/redux';
+import { Header } from './components/header';
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch();

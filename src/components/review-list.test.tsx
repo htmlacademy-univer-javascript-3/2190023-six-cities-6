@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom/vitest'
 import { describe, expect, it } from "vitest"
 import { render, screen, within } from '@testing-library/react';
-import type { Review } from '../../types/review';
-import { ReviewList } from '../../components/ReviewList';
+import type { Review } from '../types/review';
+import { ReviewList } from './review-list';
 
 describe('ReviewList', () => {
     it('should render title and number of reviews', () => {

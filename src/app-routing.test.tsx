@@ -2,22 +2,22 @@ import { configureStore } from '@reduxjs/toolkit';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { describe, expect, it, vi } from 'vitest';
-import App from '../../App';
-import { AuthorizationStatus } from '../../store/auth-slice';
+import App from './app';
+import { AuthorizationStatus } from './store/auth-slice';
 
-vi.mock('../../components/Header', () => ({
+vi.mock('./components/header', () => ({
     Header: () => <div data-testid="header" />,
 }));
-vi.mock('../../pages/MainPage', () => ({
+vi.mock('./pages/main-page', () => ({
     MainPage: () => <div data-testid="main-page">Main Page</div>,
 }));
-vi.mock('../../pages/LoginPage', () => ({
+vi.mock('./pages/login-page', () => ({
     LoginPage: () => <div data-testid="login-page">Login Page</div>,
 }));
-vi.mock('../../pages/FavoritesPage', () => ({
+vi.mock('./pages/favorites-page', () => ({
     FavoritesPage: () => <div data-testid="favorites-page">Favorites Page</div>,
 }));
-vi.mock('../../pages/OfferPage', () => ({
+vi.mock('./pages/offer-page', () => ({
     OfferPage: () => <div data-testid="offer-page">Offer Page</div>,
 }));
 

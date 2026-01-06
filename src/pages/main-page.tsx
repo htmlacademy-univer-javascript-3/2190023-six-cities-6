@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { resetCityChanged } from '../store/city-slice';
-import { Map } from '../components/Map';
-import { OffersList } from '../components/OffersList';
-import { CitiesList } from '../components/CitiesList';
+import { Map } from '../components/map';
+import { OffersList } from '../components/offers-list';
+import { CitiesList } from '../components/cities-list';
 import { changeCity } from '../store/action';
-import { SortOptions } from '../components/SortOptions';
-import type { SortType } from '../components/SortOptions';
-import { Spinner } from '../components/Spinner';
-import { MainEmptyPage } from './MainEmptyPage';
+import { SortOptions } from '../components/sort-options';
+import type { SortType } from '../components/sort-options';
+import { Spinner } from '../components/spinner';
+import { MainEmptyPage } from './main-empty-page';
 import { useAppDispatch, useAppSelector } from '../store/redux';
 
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

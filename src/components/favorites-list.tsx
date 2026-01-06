@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Offer } from '../types/offer';
-import { PlaceCard } from './PlaceCard';
+import { PlaceCard } from './place-card';
 
 type FavoritesListProps = {
   offers: Offer[];

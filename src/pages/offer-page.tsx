@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router';
 import { fetchOffer, fetchNearbyOffers, fetchReviews, changeFavoriteStatus } from '../store/offer-thunks';
 import { AuthorizationStatus } from '../store/auth-slice';
-import { ReviewList } from '../components/ReviewList';
-import { Spinner } from '../components/Spinner';
-import { CommentForm } from '../components/CommentForm';
-import { NearbyOffersSection } from '../components/NearbyOffersSection';
+import { ReviewList } from '../components/review-list';
+import { Spinner } from '../components/spinner';
+import { CommentForm } from '../components/comment-form';
 import { useAppDispatch, useAppSelector } from '../store/redux';
+import { NearbyOffersSection } from '../components/nearby-offers-section';
 // import { NearbyOffersList } from '../components/NearbyOffersList';
 
 export const OfferPage: React.FC = () => {

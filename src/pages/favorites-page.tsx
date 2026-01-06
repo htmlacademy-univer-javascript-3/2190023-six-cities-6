@@ -1,6 +1,6 @@
 import React from 'react';
-import { FavoritesList } from '../components/FavoritesList';
-import { FavoritesEmptyPage } from './FavoritesEmptyPage';
+import { FavoritesList } from '../components/favorites-list';
+import { FavoritesEmptyPage } from './favorites-empty-page';
 import { useAppSelector } from '../store/redux';
 
 export const FavoritesPage: React.FC = () => {
